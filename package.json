@@ -1,0 +1,1 @@
+{"name":"property-maintenance-tool-loop","private":true,"type":"module","dependencies":{"openai":"^4.104.0"},"scripts":{"start":"node src/property_maintenance_loop.ts","test":"node --test src/property_decision.test.ts"}}
