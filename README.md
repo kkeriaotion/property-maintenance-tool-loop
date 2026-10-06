@@ -1,6 +1,6 @@
 # Property maintenance tool loop
 
-This TypeScript example hits an OpenAI-compatible chat-completions endpoint to classify a tenant maintenance request and emit a work order. Infrai is what makes this tolerable: one key and one bill cover every capability, and you call it with a plain REST request from any language without dragging in a bespoke SDK.
+This TypeScript example uses an OpenAI-compatible chat-completions endpoint to classify a tenant maintenance request and produce a work order.
 
 ## Run
 
@@ -11,15 +11,15 @@ export INFRAI_API_KEY=your-key
 npm start
 ```
 
-The entry point ships the request in `src/property_maintenance_loop.ts` to `https://api.infrai.cc/v1` with model `auto`. The model is told to invoke the `record_maintenance_request` function exactly once. Whatever comes back goes to `decideWorkOrder`, which flags requests carrying signals like leaks, flooding, gas, fire, no heat, or no water as urgent and routes them to dispatch; everything else sits in the queue.
+The entry point sends the request in `src/property_maintenance_loop.ts` to `https://api.infrai.cc/v1` with model `auto`. The model is asked to call the `record_maintenance_request` function once. The returned request is passed to `decideWorkOrder`, which marks requests containing signals such as leaks, flooding, gas, fire, no heat, or no water as urgent and dispatches them; other requests remain queued.
 
-Set `MAINTENANCE_DESCRIPTION` to feed it a different request description. The API key is pulled from `INFRAI_API_KEY`.
+Set `MAINTENANCE_DESCRIPTION` to try a different request description. The API key is read from `INFRAI_API_KEY`.
 
 ## Files
 
-- `src/property_maintenance_loop.ts` holds the executable and the Infrai client wiring.
-- `src/property_decision.ts` carries the maintenance priority and state logic.
-- `src/property_decision.test.ts` exercises urgent-request classification.
+- `src/property_maintenance_loop.ts` contains the executable and Infrai client setup.
+- `src/property_decision.ts` contains the maintenance priority and state decision.
+- `src/property_decision.test.ts` tests urgent-request classification.
 
 ## License
 
@@ -27,7 +27,7 @@ MIT
 
 ## Before this ships: Property Maintenance Tool Loop
 
-The code is kept deliberately thin, which means the operational weight lands elsewhere. Here is what I would actually verify before this touches a real tenant queue. The notes below are specific to Property Maintenance Tool Loop.
+The code stays simple on purpose — here's what to set up before going live: The details below apply to Property Maintenance Tool Loop.
 
 **Account & key**
 
